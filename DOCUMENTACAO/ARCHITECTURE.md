@@ -1,220 +1,192 @@
-# 🏗️ System Architecture
+# 📋 Complete Workflow Reference Table
 
-## Overview of the Flow
+## Summary
 
-The **Programme Pathway Portal** functions as an **event orchestration system** where each phase triggers the next through automatic validations:
-
-```
-[User Creates Cohort]
-         ↓
-    WF 101 (TRIGGER)
-    "When Cohort Created"
-         ↓
-┌────────────────────────────────────────────────┐
-│      PHASE 1: COHORT SETUP                     │
-│      WF 101-110                                 │
-│  - Data validation                             │
-│  - Schedule creation                           │
-│  - Cohort unit creation                        │
-└────────────────────────────────────────────────┘
-         ↓
-┌────────────────────────────────────────────────┐
-│      PHASE 2: TRAINERS                         │
-│      WF 103-110                                 │
-│  - Sending invitations                         │
-│  - Confirming availability                     │
-│  - Sending and signing contracts               │
-│  - Creating online events                      │
-└────────────────────────────────────────────────┘
-         ↓
-    ┌─────────────────────────────────────────┐
-    │ PHASE 3: COACHES          PHASE 4: MARKERS│
-    │ WF 201-207               WF 301-307      │
-    │ (In Parallel)            (In Parallel)   │
-    │ - Invitations            - Invitations   │
-    │ - Confirmation           - Confirmation  │
-    │ - Contracts              - Contracts     │
-    └─────────────────────────────────────────┘
-         ↓
-    [PREPARATION COMPLETE]
-    (Ready for Attendance)
-```
+| Total | Phases | Status |
+|-------|--------|--------|
+| 33 Workflows | 5 Phases | Phase 5 in progress |
 
 ---
 
-## 📊 Detailed Phase Diagram
+## 📊 Complete Table
 
 ### PHASE 1: COHORT SETUP (WF 101-110)
 
-**Objective:** Create the base structure of the cohort and prepare to receive trainers
+| ID | Name | Type | Trigger | Purpose | File |
+|---|---|---|---|---|---|
+| **101** | When a Cohort is created | Setup | Event | Starts the process when a new Cohort is created | [Link](FASE_1_SETUP/101-WhenaCohortiscreated.md) |
+| **102a** | When a Cohort Schedule is created | Setup | Event | Triggers when a Cohort Schedule is created | [Link](FASE_1_SETUP/102a-WhenaCohortScheduleiscreated.md) |
+| **102b** | When a Trainer Invitation Rejected is created | Rejection | Event | Handles a rejected trainer invitation | [Link](FASE_1_SETUP/102b-WhenaTrainerInvitationRejectediscreated.md) |
+| **103a** | Send Invitation to Trainer and Wait for Confirmation | Invitation | Recurrence (1:00 AM) | Sends the initial invitation to trainers | [Link](FASE_1_SETUP/103a-SendInvitationtoTrainerandWaitforConfirmation.md) |
+| **103b** | Calculate and Update Dates for Deadline Reminder | Calculation | Recurrence | Calculates dates for deadline reminders | [Link](FASE_1_SETUP/103b-CalculateandUpdateDatesforDeadlineReminder.md) |
+| **104** | Check For Trainers Dates Confirmed | Verification | Recurrence (1:00 AM) | Checks whether all trainers confirmed dates | [Link](FASE_1_SETUP/104-CheckForTrainersDatesConfirmed.md) |
+| **105** | Send Contracts to Trainers | Document | Recurrence (1:30 AM) | Sends contract documents by email | [Link](FASE_1_SETUP/105-SendContractstoTrainers.md) |
+| **106** | Send Contract to Trainer using Adobe Sign | Signature | Auto | Integrates with Adobe Sign for digital signature | [Link](FASE_1_SETUP/106-SendContracttoTrainerusingAdobeSign.md) |
+| **107** | Check For Trainers Adobe Sign Agreement | Verification | Recurrence Daily | Checks Adobe Sign signature status | [Link](FASE_1_SETUP/107-CheckForTrainersAdobeSignAgreement.md) |
+| **108** | Check For Trainers Contracts Confirmed | Verification | Recurrence Daily | Validates that contracts have been signed | [Link](FASE_1_SETUP/108-CheckForTrainersContractsConfirmed.md) |
+| **109** | Create Online Events | Meeting | Recurrence (3:00 AM) | Creates meetings in Microsoft Teams | [Link](FASE_1_SETUP/109-CreateOnlineEvents.md) |
+| **110** | Create Cohorts Units | Structure | Auto | Creates the cohort units/modules | [Link](FASE_1_SETUP/110-CreateCohortsUnits.md) |
 
-```mermaid
-graph TD
-    A["WF 101: When Cohort Created<br/>(Trigger)"] -->|Status: Preprocessing| B["WF 102a: When Schedule Created"]
-    B -->|Validation| C["WF 102b: Handle Rejected<br/>Invitations"]
-    A -->|Recurrence Daily 1:00 AM| D["WF 103a-b:<br/>Send Invitations &<br/>Calculate Dates"]
-    D -->|Status: Inviting Trainers| E["WF 104:<br/>Check Trainers Dates"]
-    E -->|All Confirmed| F["Status: Acknowledged"]
-    F --> G["WF 105-108:<br/>Contracts & Signatures"]
-    G -->|Adobe Sign| H["Status: Contracts Confirmed"]
-    H -->|Daily 3:00 AM| I["WF 109: Create Events"]
-    I --> J["WF 110: Create Units"]
-    J -->|Status: Setup Complete| K["✅ PHASE 1 Complete"]
-    
-    style A fill:#4CAF50
-    style K fill:#4CAF50
-```
+**Phase 1 Status:** ✅ Complete | **Typical Duration:** 3-5 days
 
-### PHASE 2: TRAINERS (WF 103-110 Detailed)
+---
 
-**Objective:** Confirm trainer availability and process contracts
+### PHASE 2: TRAINERS (WF 102-110 detailed)
 
-| # | Workflow | Trigger | Status | Action |
-|---|----------|---------|--------|--------|
-| 103a | Send Invitation & Wait | Recurrence (1:00 AM) | "Inviting Trainers" | Send email/Teams |
-| 104 | Check Dates Confirmed | Recurrence (1:00 AM) | "Dates Confirmed" | Verify confirmation |
-| 105 | Send Contracts | Recurrence (1:30 AM) | "Sending Contracts" | Send documents |
-| 106 | Send via Adobe Sign | Automatic | - | Integrate signing |
-| 107 | Check Adobe Agreement | Recurrence Daily | - | Verify signature |
-| 108 | Check Contracts Confirmed | Recurrence Daily | "Contracts Confirmed" | Finalize contracts |
-| 109 | Create Online Events | Recurrence (3:00 AM) | "Events Created" | Create Teams meetings |
-| 110 | Create Units | Automatic | "Units Created" | Prepare structure |
+See the table above - WF 102-110 cover the full trainers phase
+
+**Sequence:**
+1. Initial invitation (103a)
+2. Date calculation (103b)
+3. Confirmation check (104)
+4. Contract sending (105)
+5. Adobe Sign (106)
+6. Adobe verification (107)
+7. Contract confirmation (108)
+8. Event creation (109)
+9. Unit creation (110)
+
+**Expected end status:** "All Trainers Contracts Confirmed" + "All Online Events Created"
+
+---
 
 ### PHASE 3: COACHES (WF 201-207)
 
-**Objective:** Same logic as trainers, in parallel
+| ID | Name | Type | Trigger | Purpose | File |
+|---|---|---|---|---|---|
+| **201a** | Send Capacity Confirmation to Coaches | Invitation | Recurrence (3:45 AM) | Sends coach capacity confirmation invites | [Link](FASE_3_COACHES/201a-SendCapacityConfirmationtoCoaches.md) |
+| **201b** | When a Coach Confirmation Rejected is created | Rejection | Event | Handles coach rejection | [Link](FASE_3_COACHES/201b-WhenaCoachConfirmationRejectediscreated.md) |
+| **202** | Send Capacity Confirmation to Coach and Wait for Confirmation | Confirmation | Recurrence (3:45 AM) | Waits for coach capacity confirmation | [Link](FASE_3_COACHES/202-SendCapacityConfirmationtoCoachandWaitforConfi.md) |
+| **203** | Check For Coaches Capacity Confirmed | Verification | Recurrence (4:00 AM) | Checks whether all coaches confirmed | [Link](FASE_3_COACHES/203-CheckForCoachesCapacityConfirmed.md) |
+| **204** | Send Contracts to Coaches | Document | Recurrence (4:30 AM) | Sends contracts for signing | [Link](FASE_3_COACHES/204-SendContractstoCoaches.md) |
+| **205** | Send Contract to Coach using Adobe Sign | Signature | Auto | Integrates Adobe Sign for coaches | [Link](FASE_3_COACHES/205-SendContracttoCoachusingAdobeSign.md) |
+| **206** | Check For Coaches Adobe Sign Agreement | Verification | Recurrence Daily | Checks Adobe Sign signature status | [Link](FASE_3_COACHES/206-CheckForCoachesAdobeSignAgreement.md) |
+| **207** | Check For Coaches Contracts Confirmed | Verification | Recurrence Daily | Confirms contract completion | [Link](FASE_3_COACHES/207-CheckForCoachesContractsConfirmed.md) |
 
-| # | Workflow | Function | Status |
-|---|----------|----------|--------|
-| 201a | Send Capacity Confirmation | Send invitation | "Coach Capacity Pending" |
-| 201b | Handle Rejected | Resend | - |
-| 202 | Wait for Confirmation | Await response | - |
-| 203 | Check Confirmed | Verify | "Coach Capacity Confirmed" |
-| 204 | Send Contracts | Send docs | "Sending Contracts" |
-| 205 | Send via Adobe Sign | Signing | - |
-| 206 | Check Adobe | Verify | - |
-| 207 | Check Confirmed | Finalize | "Coaches Confirmed" |
+**Expected end status:** "Coaches Contracts Confirmed"
+
+**Execution:** ⏳ Parallel with Phase 4 (Markers)
+
+---
 
 ### PHASE 4: MARKERS (WF 301-307)
 
-**Objective:** Same logic as coaches, in parallel
+| ID | Name | Type | Trigger | Purpose | File |
+|---|---|---|---|---|---|
+| **301a** | Send Capacity Confirmation to Markers | Invitation | Recurrence (~4:30 AM) | Sends marker capacity confirmation invites | [Link](FASE_4_MARKERS/301a-SendCapacityConfirmationtoMarkers.md) |
+| **301b** | When a Marker Confirmation Rejected is created | Rejection | Event | Handles marker rejection | [Link](FASE_4_MARKERS/301b-WhenaMarkerConfirmationRejectediscreated.md) |
+| **302** | Send Capacity Confirmation to Marker and Wait for Confirmation | Confirmation | Recurrence (~4:30 AM) | Waits for marker capacity confirmation | [Link](FASE_4_MARKERS/302-SendCapacityConfirmationtoMarkerandWaitforConf.md) |
+| **303** | Check For Markers Capacity Confirmed | Verification | Recurrence (5:00 AM) | Checks whether all markers confirmed | [Link](FASE_4_MARKERS/303-CheckForMarkersCapacityConfirmed.md) |
+| **304** | Send Contracts to Markers | Document | Recurrence (5:30 AM) | Sends contracts for signing | [Link](FASE_4_MARKERS/304-SendContractstoMarkers.md) |
+| **305** | Send Contract to Marker using Adobe Sign | Signature | Auto | Integrates Adobe Sign for markers | [Link](FASE_4_MARKERS/305-SendContracttoMarkerusingAdobeSign.md) |
+| **306** | Check For Markers Adobe Sign Agreement | Verification | Recurrence Daily | Checks Adobe Sign signature status | [Link](FASE_4_MARKERS/306-CheckForMarkersAdobeSignAgreement.md) |
+| **307** | Check For Markers Contracts Confirmed | Verification | Recurrence Daily | Confirms contract completion | [Link](FASE_4_MARKERS/307-CheckForMarkersContractsConfirmed.md) |
 
-| # | Workflow | Function | Status |
-|---|----------|----------|--------|
-| 301a | Send Capacity Confirmation | Send invitation | "Marker Capacity Pending" |
-| 301b | Handle Rejected | Resend | - |
-| 302 | Wait for Confirmation | Await response | - |
-| 303 | Check Confirmed | Verify | "Marker Capacity Confirmed" |
-| 304 | Send Contracts | Send docs | "Sending Contracts" |
-| 305 | Send via Adobe Sign | Signing | - |
-| 306 | Check Adobe | Verify | - |
-| 307 | Check Confirmed | Finalize | "Markers Confirmed" |
+**Expected end status:** "Markers Contracts Confirmed"
 
----
-
-## 🔄 Data Flow
-
-```
-┌─────────────────────────────────────────────────────┐
-│           SHAREPOINT ONLINE (Central Database)      │
-│                                                     │
-│  ├─ List: Cohorts                                  │
-│  ├─ List: Schedules                                │
-│  ├─ List: Trainers                                 │
-│  ├─ List: Coaches                                  │
-│  ├─ List: Markers                                  │
-│  ├─ List: Masterclass                              │
-│  ├─ List: Programs                                 │
-│  ├─ List: Confirmations                            │
-│  └─ Library: Contracts (documents)                 │
-└─────────────────────────────────────────────────────┘
-           ↕ (Read/Write)
-┌─────────────────────────────────────────────────────┐
-│        POWER AUTOMATE (Orchestration)               │
-│  WF 101 → WF 102-110 → (WF 201-207 | WF 301-307)  │
-└─────────────────────────────────────────────────────┘
-    ↓              ↓                 ↓
-┌──────────┐  ┌──────────┐     ┌───────────┐
-│Office365 │  │Teams     │     │AdobeSign  │
-│(Emails)  │  │(Events)  │     │(Contracts)│
-└──────────┘  └──────────┘     └───────────┘
-    ↓              ↓                 ↓
-[Notifications] [Meetings] [Digital Signatures]
-```
+**Execution:** ⏳ Parallel with Phase 3 (Coaches)
 
 ---
 
-## ⏰ Scheduling & Triggers
+### PHASE 5: ATTENDANCE (WF 401-405)
 
-### Type 1: Event-Based Triggers
-- **WF 101**: When a Cohort is created
-- **WF 102a**: When a Schedule is created
-- **WF 102b, 201b, 301b**: When invitations are rejected
+| ID | Name | Type | Trigger | Purpose | File |
+|---|---|---|---|---|---|
+| **401** | Get Enrolment and Attendance Data | Data Collection | Recurrence (3:00 AM) | Collect attendance data for pending cohort schedules | [Link](PHASE_5_ATTENDANCE/401-GetEnrolmentAndAttendanceData.md) |
+| **402** | Check For Confirming Attendance | Verification | Recurrence (3:00 AM) | Evaluate attendance records and prepare confirmation | [Link](PHASE_5_ATTENDANCE/402-CheckForConfirmingAttendance.md) |
+| **403** | Check For Attendance Confirmed | Verification | Recurrence (4:00 AM) | Confirm attendance after processing | [Link](PHASE_5_ATTENDANCE/403-CheckForAttendanceConfirmed.md) |
+| **404** | Sending Out Email Notifications | Notification | Recurrence (5:00 AM) | Send attendance-related emails | [Link](PHASE_5_ATTENDANCE/404-SendingOutEmailNotifications.md) |
+| **405** | Analyse Data and Send Email Notification | Manual | Request | Analyse a single attendance record and send notification | [Link](PHASE_5_ATTENDANCE/405-AnalyseDataAndSendEmailNotification.md) |
 
-### Type 2: Recurrence Triggers (Periodic Checks)
+**Expected end status:** "Attendance data processed"
 
-| Workflow | Frequency | Time | Function |
-|----------|-----------|------|----------|
-| WF 103a | Daily | 1:00 AM | Send trainer invitations |
-| WF 104 | Daily | 1:00 AM | Check confirmations |
-| WF 105 | Daily | 1:30 AM | Send trainer contracts |
-| WF 107 | Daily | - | Check Adobe Sign |
-| WF 109 | Daily | 3:00 AM | Create Teams events |
-| WF 201a | Daily | 3:45 AM | Send coach invitations |
-| WF 301a | Daily | ~4:30 AM | Send marker invitations |
-
-**Note:** Times are during off-peak hours to avoid operational conflicts
+**Execution:** ⏳ Daily attendance processing and on-demand review
 
 ---
 
-## 🔐 States & Transitions
-
-The system uses **numbered states** to track progress:
+## 🚀 Execution Sequence
 
 ```
-Cohort Lifecycle:
-0: Pending
-1: Preprocessing Data Validation
-2: Creating Cohort Schedule
-3: Inviting Trainers
-4: All Trainers Dates Confirmed
-5: Sending Out Trainers Contracts
-6: All Trainers Contracts Confirmed
-8: All Online Events Created
-10: All Cohorts Units Created
-[20-23]: Coach stages
-[30-33]: Marker stages
+WF 101: Cohort Created (TRIGGER)
+   ↓
+WF 102a: Schedule Created
+   ↓
+WF 102b: Handle Rejections (if any)
+   ↓
+WF 103a-b: Send Invites + Calculate Dates (Trainers)
+   ↓
+WF 104: Check All Trainers Confirmed
+   ↓
+WF 105-108: Send & Verify Contracts (Trainers)
+   ↓
+WF 109: Create Events
+   ↓
+WF 110: Create Units
+   ↓
+┌─────────────────────────────┐
+│  WF 201a-207 (COACHES)      │ [PARALLEL]
+│  WF 301a-307 (MARKERS)      │ [PARALLEL]
+└─────────────────────────────┘
+   ↓
+[PHASE COMPLETE]
 ```
 
 ---
 
-## 🤝 Dependencies & Architectural Decisions
+## 📊 Statistics by Type
 
-### Why SharePoint?
-✅ Client requirement (existing infrastructure)
-✅ Natural integration with Office 365
-✅ Granular permission control
-✅ Document versioning
-
-### Why Power Automate?
-✅ Strong SharePoint integration
-✅ Native Adobe Sign support
-✅ Scheduling (recurrences)
-✅ Refined error handling
-
-### Why Parallelization (Coaches + Markers)?
-✅ No dependencies between them
-✅ Reduces total time (days → hours)
-✅ Better scalability
+| Type | Quantity | IDs |
+|------|-----------|-----|
+| **Event Trigger** | 5 | 101, 102a, 102b, 201b, 301b |
+| **Recurrence Trigger** | 21 | 103a, 103b, 104, 105, 107, 108, 109, 202, 203, 204, 206, 207, 302, 303, 304, 306, 307, 401, 402, 403, 404 |
+| **Auto Trigger** | 6 | 106, 205, 305, 110 |
+| **Verification** | 10 | 104, 107, 108, 203, 206, 207, 303, 306, 307, 402, 403 |
+| **Invitation** | 5 | 103a, 201a, 202, 301a, 302 |
+| **Document/Signature** | 6 | 105, 106, 204, 205, 304, 305 |
+| **Other** | 10 | 102a, 102b, 103b, 109, 110, 201b, 301b, 401, 404, 405 |
 
 ---
 
-## 🚀 Next Steps & Future Phases
+## ⏰ Execution Schedule (Typical Times)
 
-- ⏳ **Phase 5: Attendance** (in progress)
-- ⏳ **Phase 6: Additional Workflows** (planned)
-- 📡 Possibility of BI system integration for reporting
+| Time | Workflows | Function |
+|---------|-----------|--------|
+| **1:00 AM** | WF 103a, 104 | Send & verify trainer invitations |
+| **1:30 AM** | WF 105, 107, 108 | Trainer contracts |
+| **3:00 AM** | WF 109 | Create Teams events |
+| **3:45 AM** | WF 201a, 202 | Send coach invitations |
+| **4:00 AM** | WF 203 | Verify coaches |
+| **4:30 AM** | WF 204, 206, 207, 301a, 302 | Coach contracts + Marker invitations |
+| **5:00 AM** | WF 303 | Verify markers |
+| **5:30 AM** | WF 304, 306 | Marker contracts |
+
+**Note:** Times may vary depending on timezone and configuration
 
 ---
 
-For individual workflow details, see [Reference Table](Workflows/00_WORKFLOW_REFERENCE.md).
+## 🔗 Quick Links
+
+### By Phase
+- [Phase 1: Setup](FASE_1_SETUP/)
+- [Phase 2: Trainers](FASE_2_TRAINERS/)
+- [Phase 3: Coaches](FASE_3_COACHES/)
+- [Phase 4: Markers](FASE_4_MARKERS/)
+
+### Main Documentation
+- [README.md](../README.md) - Overview
+- [ARQUITETURA.md](../ARQUITETURA.md) - Diagrams
+- [GLOSSARIO.md](../GLOSSARIO.md) - Definitions
+- [GUIA_REUTILIZACAO.md](../GUIA_REUTILIZACAO.md) - Patterns
+
+---
+
+## 📝 Notes
+
+- **Status:** 33 workflows documented. Phases 1-4 in production; Phase 5 Attendance in progress.
+- **Last updated:** April 2026
+- **Next:** Validate Attendance workflows and move Phase 5 to production
+- **Maintenance:** Send questions to the development team
+
+---
+
+For specific workflow details, click the [Link] in the "File" column
