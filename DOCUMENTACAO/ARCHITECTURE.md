@@ -211,7 +211,7 @@ Cohort Lifecycle:
 
 ## 🚀 Next Steps & Future Phases
 
-- ⏳ **Phase 5: Attendance** (in development)
+- ⏳ **Phase 5: Attendance** (in progress)
 - ⏳ **Phase 6: Additional Workflows** (planned)
 - 📡 Possibility of BI system integration for reporting
 
