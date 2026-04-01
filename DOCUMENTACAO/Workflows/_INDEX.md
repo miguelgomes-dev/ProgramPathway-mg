@@ -58,7 +58,7 @@ DOCUMENTATION/
 ├── Workflows/
 │   │
 │   ├── 00_WORKFLOW_REFERENCE.md 📋
-│   │   └─ Table with ALL 28 workflows
+│   │   └─ Table with ALL 33 workflows
 │   │      - By phase
 │   │      - With status, trigger, objective
 │   │      - Execution sequence
@@ -106,8 +106,13 @@ DOCUMENTATION/
 │   │   └── 307-CheckForMarkersContractsConfirmed.md
 │   │
 │   └── PHASE_5_ATTENDANCE/
-│       └── _PLACEHOLDER.md (⏳ In development)
-│
+│       ├── _README.md (phase overview)
+│       ├── 401-GetEnrolmentAndAttendanceData.md
+│       ├── 402-CheckForConfirmingAttendance.md
+│       ├── 403-CheckForAttendanceConfirmed.md
+│       ├── 404-SendingOutEmailNotifications.md
+│       └── 405-AnalyseDataAndSendEmailNotification.md
+|
 └── [This file: _INDEX.md]
 ```
 
@@ -123,7 +128,7 @@ DOCUMENTATION/
 **"How does the system work?"**
 → [ARCHITECTURE.md](../ARCHITECTURE.md)
 
-**"What are the 28 workflows?"**
+**"What are the 33 workflows?"**
 → [00_WORKFLOW_REFERENCE.md](00_WORKFLOW_REFERENCE.md)
 
 **"How do I create a new workflow?"**
@@ -154,7 +159,7 @@ DOCUMENTATION/
 | **READMEs per phase** | 5 |
 | **Reference tables** | 1 (00_WORKFLOW_REFERENCE.md) |
 | **Patterns described** | 5 |
-| **Documented workflows** | 28 |
+| **Documented workflows** | 33 |
 | **Glossary terms** | 30+ |
 | **Recipes** | 3 |
 
@@ -194,15 +199,15 @@ Mark as you read:
 ## 📞 Documentation Version
 
 ```
-Version: 1.0
-Date: March 2026
-Status: ✅ Complete (Phases 1-4)
-Missing: Phase 5 (Attendance)
-Next review: When Attendance is ready
+Version: 1.1
+Date: April 2026
+Status: Phase 5 Attendance documented and in progress
+Missing: No phases pending documentation
+Next review: After Attendance workflows validation
 ```
 
 ---
 
-**Last updated:** March 2026 | **Responsible:** Development Team
+**Last updated:** April 2026 | **Responsible:** Development Team
 
 For improvement suggestions, contact your solution architect.
