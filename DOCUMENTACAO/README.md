@@ -28,6 +28,7 @@ We developed an **intelligent automation** that reduces manual work to a single 
 - ✅ Manages contracts (including digital signature via Adobe Sign)
 - ✅ Organizes students by roles
 - ✅ Creates Teams events/meetings
+- ✅ Extracts attendance data from Teams via Microsoft Graph API
 - ✅ Creates cohort units
 - ✅ All with built-in error prevention logic
 
@@ -49,6 +50,7 @@ We developed an **intelligent automation** that reduces manual work to a single 
 |------------|---------|
 | **Power Automate** | Workflow orchestration and automation |
 | **SharePoint Online** | Central database (lists and repositories) |
+| **Microsoft Graph API** | Retrieve Teams meeting and attendance data |
 | **Office 365** | Email and communications |
 | **Microsoft Teams** | Event/meeting creation and notifications |
 | **Adobe Sign** | Digital contract signatures |
@@ -87,7 +89,8 @@ We developed an **intelligent automation** that reduces manual work to a single 
     │   └── ... (workflows 301-307)
     │
     └── 📁 PHASE_5_ATTENDANCE/ (⏳ In development)
-        └── _PLACEHOLDER.md
+        ├── _README.md
+        └── ... (workflows 401-405)
 ```
 
 ---
@@ -113,8 +116,8 @@ See **REUSABILITY_GUIDE.md** - section "How to Add New Workflows"
 
 | Metric | Value |
 |--------|-------|
-| **Total Workflows** | 28 (in production) |
-| **Main Phases** | 4 phases |
+| **Total Workflows** | 33 (Phases 1-4 in production, Phase 5 in progress) |
+| **Main Phases** | 5 phases |
 | **Connectors Used** | 6 connectors |
 | **Controlled States** | 34+ states |
 | **Documentation** | Complete + Extensible |
@@ -126,7 +129,7 @@ See **REUSABILITY_GUIDE.md** - section "How to Add New Workflows"
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0 | Mar 2026 | **Complete** - Phases 1-4 fully documented (28 workflows + 11 core files) |
-| 1.1 | TBD | Addition of Attendance Workflows (Phase 5) |
+| 1.1 | Apr 2026 | Attendance Workflows added to documentation (Phase 5) |
 
 ---
 
@@ -138,4 +141,4 @@ For questions or updates:
 
 ---
 
-**Status**: ✅ In Production | 📅 Last updated: March 2026
+**Status**: ✅ In Production | 📅 Last updated: April 2026
